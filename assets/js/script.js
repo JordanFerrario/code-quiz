@@ -1,23 +1,27 @@
-const startBtn = document.getElementById('start-btn')
-const scoresBtn = document.getElementById('scores-btn')
+
 let question = document.getElementById('question')
 let choiceA = document.getElementById('choice-a')
 let choiceB = document.getElementById('choice-b')
 let choiceC = document.getElementById('choice-c')
 let choiceD = document.getElementById('choice-d')
+let timerDisplay = document.getElementById('timer-display')
+let correctOrWrong = document.getElementById('correct-or-wrong')
+let timeLeft = 120; 
 let correctChoice;
 let currentQuestion = 1;
 
+function startQuiz(event) {
+    event.preventDefault();
+    location.assign('quiz.html');
+
+    loadQuestion1();
+    countdownTimer();
+}
+
 function countdownTimer() {
-    // Display the #timer-display element 
-    let timerDisplay = document.getElementById('timer-display')
-
-    // Start time at 90s
-    let timeLeft = 90; 
-
     let countdown = setInterval(function() {
         timeLeft--;
-        timerDisplay.innerHTML = timeLeft;
+        timerDisplay.innerHTML = `Time: ${timeLeft}s`;
 
         // If the countdown is finished, then display "TIME'S UP"
         if (timeLeft <= 0) {
@@ -27,15 +31,12 @@ function countdownTimer() {
     }, 1000);
 }
 
-function startQuiz() {
-    loadQuestion1();
-    countdownTimer();
-}
-
 function checkAnswer(userChoice) {
     if (userChoice === correctChoice) {
-        alert('Correct!')
+        correctOrWrong.innerHTML = 'Correct!'
         currentQuestion++;
+        setTimeout(() => {
+            correctOrWrong.innerHTML = '';
         switch(currentQuestion) {
             case 2:
                 loadQuestion2();
@@ -68,8 +69,13 @@ function checkAnswer(userChoice) {
                 alert('ahhhh!');
                 break;
         }
+    }, 1000);
     } else {
-        alert('Wrong answer!')
+        correctOrWrong.innerHTML = 'Wrong!'
+        timeLeft-=5;
+        setTimeout(() => {
+            correctOrWrong.innerHTML = '';
+        }, 1000);
     }
 }
 
@@ -213,8 +219,10 @@ function loadQuestion10() {
     choiceD.onclick = () => checkAnswer('choice-d');
 }
 
-startQuiz()
+document.addEventListener('DOMContentLoaded', function() {
+    const startBtn = document.getElementById('start-btn')
+    const scoresBtn = document.getElementById('scores-btn')
 
-
-// startBtn.addEventListener('click', () => window.location.assign('quiz.html'));
-// scoresBtn.addEventListener('click', () => window.location.assign('scores.html'))
+    startBtn.addEventListener('click', startQuiz);
+    scoresBtn.addEventListener('click', () => window.location.assign('scores.html'));
+});
