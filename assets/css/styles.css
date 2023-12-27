@@ -16,9 +16,16 @@ button {
 }
 
 #timer-display {
-   display: flex;
-   justify-content: center;
-   margin-top: 7.5vh;
-   font-size: 2rem;
-   
+    display: flex;
+    justify-content: center;
+    margin-top: 7.5vh;
+    font-size: 2rem;
+
+}
+
+#correct-or-wrong {
+    display: flex;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.5rem;
 }

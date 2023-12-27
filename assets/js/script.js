@@ -6,20 +6,20 @@ let choiceC = document.getElementById('choice-c')
 let choiceD = document.getElementById('choice-d')
 let timerDisplay = document.getElementById('timer-display')
 let correctOrWrong = document.getElementById('correct-or-wrong')
-let timeLeft = 120; 
+let timeLeft = 120;
 let correctChoice;
 let currentQuestion = 1;
 
-function startQuiz(event) {
-    event.preventDefault();
-    location.assign('quiz.html');
+// function startQuiz(event) {
+//     event.preventDefault();
+//     location.assign('quiz.html');
 
-    loadQuestion1();
-    countdownTimer();
-}
+//     loadQuestion1();
+//     countdownTimer();
+// }
 
 function countdownTimer() {
-    let countdown = setInterval(function() {
+    let countdown = setInterval(function () {
         timeLeft--;
         timerDisplay.innerHTML = `Time: ${timeLeft}s`;
 
@@ -37,42 +37,42 @@ function checkAnswer(userChoice) {
         currentQuestion++;
         setTimeout(() => {
             correctOrWrong.innerHTML = '';
-        switch(currentQuestion) {
-            case 2:
-                loadQuestion2();
-                break;
-            case 3:
-                loadQuestion3();
-                break;
-            case 4:
-                loadQuestion4();
-                break;
-            case 5:
-                loadQuestion5();
-                break;
-            case 6:
-                loadQuestion6();
-                break;
-            case 7:
-                loadQuestion7();
-                break;
-            case 8:
-                loadQuestion8();
-                break;
-            case 9:
-                loadQuestion9();
-                break;
-            case 10:
-                loadQuestion10();
-                break;
-            default:
-                alert('ahhhh!');
-                break;
-        }
-    }, 1000);
+            switch (currentQuestion) {
+                case 2:
+                    loadQuestion2();
+                    break;
+                case 3:
+                    loadQuestion3();
+                    break;
+                case 4:
+                    loadQuestion4();
+                    break;
+                case 5:
+                    loadQuestion5();
+                    break;
+                case 6:
+                    loadQuestion6();
+                    break;
+                case 7:
+                    loadQuestion7();
+                    break;
+                case 8:
+                    loadQuestion8();
+                    break;
+                case 9:
+                    loadQuestion9();
+                    break;
+                case 10:
+                    loadQuestion10();
+                    break;
+                default:
+                    alert('ahhhh!');
+                    break;
+            }
+        }, 1000);
     } else {
         correctOrWrong.innerHTML = 'Wrong!'
-        timeLeft-=5;
+        timeLeft -= 5;
         setTimeout(() => {
             correctOrWrong.innerHTML = '';
         }, 1000);
@@ -219,10 +219,13 @@ function loadQuestion10() {
     choiceD.onclick = () => checkAnswer('choice-d');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const startBtn = document.getElementById('start-btn')
-    const scoresBtn = document.getElementById('scores-btn')
+loadQuestion1();
+countdownTimer();
 
-    startBtn.addEventListener('click', startQuiz);
-    scoresBtn.addEventListener('click', () => window.location.assign('scores.html'));
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     const startBtn = document.getElementById('start-btn')
+//     const scoresBtn = document.getElementById('scores-btn')
+
+//     startBtn.addEventListener('click', startQuiz);
+//     scoresBtn.addEventListener('click', () => window.location.assign('scores.html'));
+// });
