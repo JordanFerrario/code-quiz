@@ -6,10 +6,12 @@ const choiceB = document.getElementById('choice-b')
 const choiceC = document.getElementById('choice-c')
 const choiceD = document.getElementById('choice-d')
 const timerDisplay = document.getElementById('timer-display')
-let correctOrWrong = document.getElementById('correct-or-wrong')
+const correctOrWrong = document.getElementById('correct-or-wrong')
+const userForm = document.querySelector('.form-container');
 let timeLeft = 10;
 let correctChoice;
 let currentQuestion = 1;
+let score = 0;
 
 function countdownTimer() {
     let countdown = setInterval(function () {
@@ -29,6 +31,7 @@ function checkAnswer(userChoice) {
     if (userChoice === correctChoice) {
         correctOrWrong.innerHTML = 'Correct!'
         currentQuestion++;
+        score += 10;
         setTimeout(() => {
             correctOrWrong.innerHTML = '';
             switch (currentQuestion) {
@@ -217,13 +220,26 @@ function loadQuestion10() {
 }
 
 function endQuiz() {
-    question.innerHTML = 'Finished!'
+    question.innerHTML = `Your score is ${score}`;
 
     const choices = document.querySelectorAll('.choice');
     choices.forEach((choice) => choice.hidden = true);
 
-    const userForm = document.querySelector('.form-container');
     userForm.hidden = false;
+
+
+    userForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const initials = document.getElementById('initials');
+
+        const userData = {
+            initials: initials,
+            score: score
+        };
+
+        localStorage.setItem('userScore', JSON.stringify(userData));
+    })
 }
 
 document.addEventListener('DOMContentLoaded', () => {
