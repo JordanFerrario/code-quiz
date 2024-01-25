@@ -7,7 +7,7 @@ const choiceC = document.getElementById('choice-c')
 const choiceD = document.getElementById('choice-d')
 const timerDisplay = document.getElementById('timer-display')
 let correctOrWrong = document.getElementById('correct-or-wrong')
-let timeLeft = 120;
+let timeLeft = 10;
 let correctChoice;
 let currentQuestion = 1;
 
@@ -20,6 +20,7 @@ function countdownTimer() {
         if (timeLeft <= 0) {
             clearInterval(countdown);
             timerDisplay.innerHTML = "TIME'S UP";
+            endQuiz();
         }
     }, 1000);
 }
@@ -218,6 +219,11 @@ function loadQuestion10() {
 function endQuiz() {
     question.innerHTML = 'Finished!'
 
+    const choices = document.querySelectorAll('.choice');
+    choices.forEach((choice) => choice.hidden = true);
+
+    const userForm = document.querySelector('.form-container');
+    userForm.hidden = false;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
