@@ -1,5 +1,3 @@
-const startBtn = document.getElementById('start-btn')
-const scoresBtn = document.getElementById('scores-btn')
 const question = document.getElementById('question')
 const choiceA = document.getElementById('choice-a')
 const choiceB = document.getElementById('choice-b')
@@ -8,7 +6,7 @@ const choiceD = document.getElementById('choice-d')
 const timerDisplay = document.getElementById('timer-display')
 const correctOrWrong = document.getElementById('correct-or-wrong')
 const userForm = document.querySelector('.form-container');
-let timeLeft = 10;
+let timeLeft = 20;
 let correctChoice;
 let currentQuestion = 1;
 let score = 0;
@@ -227,20 +225,27 @@ function endQuiz() {
 
     userForm.hidden = false;
 
-
     userForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const initials = document.getElementById('initials');
+        const initials = document.getElementById('initials').value;
 
-        const userData = {
+        let savedScores = [];
+
+        const userScore = {
             initials: initials,
             score: score
         };
 
-        localStorage.setItem('userScore', JSON.stringify(userData));
+        // localStorage.setItem('userScore', JSON.stringify(userScore));
+        savedScores.push(localStorage.setItem('userScore', JSON.stringify(userScore)));
+
+        console.log(savedScores);
+
+        window.location.assign('scores.html');
     })
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -250,8 +255,25 @@ document.addEventListener('DOMContentLoaded', () => {
         loadQuestion1();
         countdownTimer();
     }
+    const startBtn = document.getElementById('start-btn')
+    const scoresBtn = document.getElementById('scores-btn')
+    const goBackBtn = document.getElementById('go-back-btn')
+
+    if (startBtn) {
+        startBtn.addEventListener('click', () => window.location.assign('quiz.html?startQuiz=true'));
+    }
+
+    if (scoresBtn) {
+        scoresBtn.addEventListener('click', () => window.location.assign('scores.html'));
+    }
+
+    if (goBackBtn) {
+        goBackBtn.addEventListener('click', () => window.location.assign('index.html'));
+    }
+
 });
 
-startBtn.addEventListener('click', () => window.location.assign('quiz.html?startQuiz=true'));
 
-scoresBtn.addEventListener('click', () => window.location.assign('scores.html'));
+
+
+
