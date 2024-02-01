@@ -264,6 +264,7 @@ function displayScores() {
   scores.forEach((score) => {
     const scoreItem = document.createElement("li");
     scoreItem.textContent = `${score.initials} - ${score.score}`;
+    scoreItem.style.listStyleType = "none";
     scoresList.appendChild(scoreItem);
   });
 }
@@ -279,6 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("start-btn");
   const scoresBtn = document.getElementById("scores-btn");
   const goBackBtn = document.getElementById("go-back-btn");
+  const clearScoresBtn = document.getElementById("clear-scores-btn");
 
   if (startBtn) {
     startBtn.addEventListener("click", () =>
@@ -296,6 +298,13 @@ document.addEventListener("DOMContentLoaded", () => {
     goBackBtn.addEventListener("click", () =>
       window.location.assign("index.html")
     );
+  }
+
+  if (clearScoresBtn) {
+    clearScoresBtn.addEventListener("click", () => {
+      localStorage.removeItem("scores");
+      window.location.reload();
+    });
   }
 
   if (window.location.pathname === "/scores.html") {
