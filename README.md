@@ -28,7 +28,7 @@ Test your knowledge here! [JavaScript Code Quiz](https://jordanferrario.github.i
 
 Without giving away the questions 😉, here's a visual of what to expect when playing the game!
 
-![A gif that shows the functionality of the JavaScript quiz application. A user is clicking on answers to the quiz.](assets\images\code-quiz.gif)
+![A gif that shows the functionality of the JavaScript quiz application. A user is clicking on answers to the quiz.](./assets/images/code-quiz.gif)
 
 ## Installation
 
