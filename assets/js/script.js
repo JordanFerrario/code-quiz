@@ -1,3 +1,4 @@
+// Global variables
 const question = document.getElementById("question");
 const choiceA = document.getElementById("choice-a");
 const choiceB = document.getElementById("choice-b");
@@ -6,18 +7,20 @@ const choiceD = document.getElementById("choice-d");
 const correctOrWrong = document.getElementById("correct-or-wrong");
 const userForm = document.querySelector(".form-container");
 const timerDisplay = document.getElementById("timer-display");
-let timeLeft = 120;
+let timeLeft = 121;
 let correctChoice;
 let currentQuestion = 1;
 let score = 0;
 let countdown;
 
+// Quiz timer function and display
 function countdownTimer() {
+  // Decrement time every second and display it
   countdown = setInterval(function () {
     timeLeft--;
     timerDisplay.innerHTML = `Time: ${timeLeft}s`;
 
-    // If the countdown is finished, then display "TIME'S UP"
+    // Display "TIME'S UP" when time runs out
     if (timeLeft <= 0) {
       clearInterval(countdown);
       timerDisplay.innerHTML = "TIME'S UP";
@@ -26,13 +29,14 @@ function countdownTimer() {
   }, 1000);
 }
 
+// Check user's answer and load next question
 function checkAnswer(userChoice) {
   if (userChoice === correctChoice) {
-    correctOrWrong.innerHTML = "Correct!";
+    correctOrWrong.innerHTML = "Correct!"; // Display "Correct!" message
     currentQuestion++;
-    score += 10;
+    score += 10; // Add 10 points for a correct answer
     setTimeout(() => {
-      correctOrWrong.innerHTML = "";
+      correctOrWrong.innerHTML = ""; // Clear "Correct!" message
       switch (currentQuestion) {
         case 2:
           loadQuestion2();
@@ -70,14 +74,15 @@ function checkAnswer(userChoice) {
       }
     }, 1000);
   } else {
-    correctOrWrong.innerHTML = "Wrong!";
-    timeLeft -= 10;
+    correctOrWrong.innerHTML = "Wrong!"; // Display "Wrong!" message
+    timeLeft -= 10; // Deduct 10 seconds for a wrong answer
     setTimeout(() => {
-      correctOrWrong.innerHTML = "";
+      correctOrWrong.innerHTML = ""; // Clear "Wrong!" message
     }, 1000);
   }
 }
 
+// Load questions and answers
 function loadQuestion1() {
   correctChoice = "choice-c";
   question.innerHTML =
@@ -87,6 +92,7 @@ function loadQuestion1() {
   choiceC.innerHTML = 'C. &lt;script src="app.js"&gt;';
   choiceD.innerHTML = 'D. &lt;script file="app.js"&gt;';
 
+  // Add event listeners to each choice
   choiceA.onclick = () => checkAnswer("choice-a");
   choiceB.onclick = () => checkAnswer("choice-b");
   choiceC.onclick = () => checkAnswer("choice-c");
@@ -224,16 +230,19 @@ function loadQuestion10() {
   choiceD.onclick = () => checkAnswer("choice-d");
 }
 
+// End quiz and display score
 function endQuiz() {
   question.innerHTML = `Your score is ${score}`;
 
+  // Hide choices and display form to enter initials
   const choices = document.querySelectorAll(".choice");
   choices.forEach((choice) => (choice.hidden = true));
-
   userForm.hidden = false;
 
+  // Stop the timer
   clearInterval(countdown);
 
+  // Save score as an object with initials and score on form submit
   userForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -244,23 +253,33 @@ function endQuiz() {
       score: score,
     };
 
+    // Save score to local storage
     saveScore(userScore);
 
+    // Redirect to scores page
     window.location.assign("scores.html");
   });
 }
 
+// Function to save score to local storage
 function saveScore(userScore) {
+  // Get scores from local storage or create an empty array if there are no scores
   const scores = JSON.parse(localStorage.getItem("scores")) || [];
+  // Add new score to the array
   scores.push(userScore);
+  // Save the updated array to local storage
   localStorage.setItem("scores", JSON.stringify(scores));
 }
 
+// Function to display scores on scores.html page
 function displayScores() {
   const scoresList = document.getElementById("scores-list");
+  // Get scores from local storage or create an empty array if there are no scores
   const scores = JSON.parse(localStorage.getItem("scores")) || [];
+  // Sort scores in descending order
   scores.sort((a, b) => b.score - a.score);
 
+  // Display scores in a list
   scores.forEach((score) => {
     const scoreItem = document.createElement("li");
     scoreItem.textContent = `${score.initials} - ${score.score}`;
@@ -269,14 +288,19 @@ function displayScores() {
   });
 }
 
+// Event listeners for start, scores, go back, and clear scores buttons that only load when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+  // Check if the startQuiz query parameter is present in the URL
   const urlParams = new URLSearchParams(window.location.search);
   const startQuiz = urlParams.get("startQuiz");
 
+  // Load the first question and start the timer when the startQuiz query parameter is present
   if (startQuiz) {
     loadQuestion1();
     countdownTimer();
   }
+
+  // Event listeners
   const startBtn = document.getElementById("start-btn");
   const scoresBtn = document.getElementById("scores-btn");
   const goBackBtn = document.getElementById("go-back-btn");
@@ -284,29 +308,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (startBtn) {
     startBtn.addEventListener("click", () =>
-      window.location.assign("quiz.html?startQuiz=true")
+      window.location.replace("quiz.html?startQuiz=true")
     );
   }
 
   if (scoresBtn) {
     scoresBtn.addEventListener("click", () =>
-      window.location.assign("scores.html")
+      window.location.replace("scores.html")
     );
   }
 
   if (goBackBtn) {
     goBackBtn.addEventListener("click", () =>
-      window.location.assign("index.html")
+      window.location.replace("index.html")
     );
   }
 
   if (clearScoresBtn) {
     clearScoresBtn.addEventListener("click", () => {
       localStorage.removeItem("scores");
-      window.location.reload();
+      window.location.reload(); // Reload the page to clear the scores
     });
   }
 
+  // Display scores on scores.html page when the page is loaded
   if (window.location.pathname === "/scores.html") {
     displayScores();
   }

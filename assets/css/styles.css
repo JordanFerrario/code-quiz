@@ -28,6 +28,7 @@ button {
     font-style: italic;
     font-weight: 300;
     font-size: 1.5rem;
+    justify-content: center;
 }
 
 #scores-list {
@@ -41,4 +42,11 @@ button {
     flex-direction: column;
     min-height: 50vh;
     margin: 0;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
